@@ -61,11 +61,11 @@ def train(train_queue, valid_queue, model, criterion, optimizer_arch, optimizer_
         n = input.size(0)  # batch size
 
         input = input.cuda()
-        target = target.cuda(async=True)
+        target = target.cuda()
 
         input_search, target_search = next(iter(valid_queue))
         input_search = input_search.cuda()
-        target_search = target_search.cuda(async=True)
+        target_search = target_search.cuda()
 
         temperature = opt.initial_temp * np.exp(-opt.anneal_rate * step)
 
@@ -100,7 +100,7 @@ def infer(valid_queue, model, criterion):
 
     for step, (input, target) in tqdm.tqdm(enumerate(valid_queue)):
         input = input.cuda()
-        target = target.cuda(async=True)
+        target = target.cuda()
 
         temperature = opt.initial_temp * np.exp(-opt.anneal_rate * step)
         logits, _ = model(input, temperature)
